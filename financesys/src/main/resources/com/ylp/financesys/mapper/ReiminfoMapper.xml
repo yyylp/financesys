@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ylp.financesys.mapper.ReiminfoMapper">
+	<insert id="addReiminfo" parameterType="Reiminfo">
+		<selectKey keyProperty="rid" keyColumn="rid" order="BEFORE" resultType="String">
+			select seq_Reiminfo_rid.nextval from dual 
+		</selectKey>
+		insert into Reiminfo values(#{rid},sysdate,#{eid},#{proof},#{price},#{remark},'','','','',0)
+	</insert>
+	
+	<select id="findByPage" resultType="Reiminfo" parameterType="Map">
+		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,ename,cashier,deptmanager,topmanager,financer,rstatus from (select rownum rn ,a.* from (select r.*,r.eid,ename from reiminfo r join employer e on r.eid=e.eid) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+	</select>
+	<select id="findByEmp" resultType="Reiminfo" parameterType="Map">
+		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,ename,cashier,deptmanager,topmanager,financer,rstatus from (select rownum rn ,a.* from (select r.*,r.eid,ename from reiminfo r join employer e on r.eid=e.eid where r.eid=#{eid}) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+	</select>
+	<select id="findAll" resultType="Reiminfo">
+		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,ename,cashier,deptmanager,topmanager,financer,rstatus from Reiminfo r join employer e on e.eid=r.eid
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(rid) from Reiminfo
+	</select>
+	
+	<select id="getTotalByEmp" resultType="int" parameterType="String">
+		select count(rid) from Reiminfo where eid=#{eid}
+	</select>
+	
+	<delete id="delete" parameterType="String">
+		delete from Reiminfo where rid in
+		<!-- collection 表示集合类型 -->
+		<foreach collection="list" item="rid" open="(" close=")" separator=",">
+			#{rid}
+		</foreach>
+	</delete> 
+	
+	<update id="update" parameterType="Reiminfo">
+		update Reiminfo set rtatus=#{rstatus} where rid=#{rid}
+	</update>
+</mapper>

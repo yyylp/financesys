@@ -1,0 +1,125 @@
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<table id="fitems_data"></table>
+<script type="text/javascript">
+
+var fitemsEditRow=undefined;
+var fitemsOp;
+var fitemsFlag;
+var fitemsObj=$('#fitems_data').datagrid({   
+    url:'../fitems/findByPage',   
+    fitColumns:true,
+    pagination:true,
+    pageSize:5,
+    pageList:[5,10,20,30,40,50],
+    striped:true,
+    rownumbers:true,
+    sortName:"imid",
+    remoteSort:false,
+    fit:true,
+    columns:[[
+     	{field:"imids",checkbox:true},
+        {field:'imid',title:'类目编号',width:50,align:'center',sortable:true},   
+        {field:'iname',title:'类目名称',width:50,align:'center',editor:{type:'text',options:{required:true}}},
+        {field:'fname',title:'类目类型',width:50,align:'center',editor:{type:'combobox',options:{required:true,valueField:'fid',textField:'fname',method:'post',url:'../ftype/findAll'}}},
+    ]],
+    toolbar:[{
+    	text:"添加",
+    	iconCls:'icon-add',
+    	handler:function(){
+    		fitemsOp="addFitems";
+    		fitemsFlag="添加";
+			if(fitemsEditRow==undefined){
+				fitemsObj.datagrid('insertRow',{index:0,row:{}});
+				fitemsObj.datagrid('beginEdit',0);//开始编辑
+				fitemsEditRow=0;
+			}else{
+				fitemsObj.datagrid("rejectChanges");
+				fitemsEditRow=undefined;
+			}
+    	}
+    },'-',{
+    	text:"修改",
+    	iconCls:'icon-edit',
+    	handler:function(){
+    		fitemsOp="updateFitems";
+    		fitemsFlag="修改";
+    		if(fitemsEditRow!=undefined){//有正在编辑的行
+        		fitemsObj.datagrid("endEdit",fitemsEditRow);//结束编辑
+    			fitemsObj.datagrid("rejectChanges");//回滚数据，恢复到编辑前状态
+				fitemsEditRow=undefined;    		
+    		}
+    		
+    		var row=fitemsObj.datagrid("getChecked")[0];//获取正在编辑的行
+    		if(row==undefined){//没有选择行
+				$.messager.show({title:'提示',msg:'请选择要修改的类目...',timeout:2000,showType:'slide'});
+    		}else{
+    			var index=fitemsObj.datagrid('getRowIndex',row);
+    			fitemsObj.datagrid('beginEdit',index);
+    			fitemsEditRow=index;
+    		}
+    	}
+    },'-',{
+    	text:"删除",
+    	iconCls:'icon-remove',
+    	handler:function(){
+    		var row=fitemsObj.datagrid("getChecked");//获取被选择的行
+    		if(row.length<=0){
+				$.messager.show({title:'提示',msg:'请先选择您要删除的类目...',timeout:2000,showType:'slide'});
+    		}else{
+    			var imids="";
+    			for(var i=0;i<row.length-1;i++){
+    				imids+=row[i].imid+",";
+    			}
+				imids+=row[i].imid;
+				$.post('../fitems/deleteFitems',{imids:imids},function(data){
+        			if(data>0){
+        				$.messager.show({title:'成功提示',msg:'删除类目成功...',timeout:2000,showType:'slide'});
+        				fitemsObj.datagrid("reload");
+        			}else{
+        				fitemsObj.datagrid("rejectChanges");
+        				$.messager.alert("失败提示","删除类目失败",'error');
+        			}
+        		},'text');	
+    		}
+    	}
+    },'-',{
+    	text:"保存",
+    	iconCls:'icon-save',
+    	handler:function(){
+    		fitemsObj.datagrid("endEdit",fitemsEditRow);
+    		var row=fitemsObj.datagrid("getChanges")[0];
+    		if(row!=undefined){
+    			row.op=fitemsOp;
+        		$.post('../fitems/'+fitemsOp,{imid:row.imid,iname:row.iname,fid:row.fname},function(data){
+        			if(data>0){
+        				$.messager.show({title:'成功提示',msg:fitemsFlag+'保存类目成功...',timeout:2000,showType:'slide'});
+        				fitemsObj.datagrid("reload");//重载所有记录
+        			}else{
+        				fitemsObj.datagrid("rejectChanges");
+        				$.messager.alert("失败提示",fitemsFlag+"保存类目失败",'error');
+        			}
+        			fitemsEditRow=undefined;
+        		},'text');	
+    		}else{
+    			fitemsObj.datagrid("rejectChanges");
+				fitemsEditRow=undefined;
+    		}
+    	}
+    },'-',{
+    	text:"撤销",
+    	iconCls:'icon-undo',
+    	handler:function(){
+    		var row=fitemsObj.datagrid("getChecked")[0];//获取正在编辑的行
+    		var index=fitemsObj.datagrid('getRowIndex',row);
+			fitemsObj.datagrid('cancelEdit',index);
+			fitemsEditRow=index;
+    	}
+    }]  
+}); 
+
+</script>

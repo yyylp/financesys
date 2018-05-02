@@ -1,0 +1,124 @@
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<table id="ftype_data"></table>
+<script type="text/javascript">
+
+var ftypeEditRow=undefined;
+var ftypeOp;
+var ftypeFlag;
+var ftypeObj=$('#ftype_data').datagrid({   
+    url:'../ftype/findByPage',   
+    fitColumns:true,
+    pagination:true,
+    pageSize:5,
+    pageList:[5,10,20,30,40,50],
+    striped:true,
+    rownumbers:true,
+    sortName:"fid",
+    remoteSort:false,
+    fit:true,
+    columns:[[
+     	{field:"fids",checkbox:true},
+        {field:'fid',title:'类目类型编号',width:50,align:'center',sortable:true},   
+        {field:'fname',title:'类目类型名称',width:50,align:'center',editor:{type:'text',options:{required:true}}},
+    ]],
+    toolbar:[{
+    	text:"添加",
+    	iconCls:'icon-add',
+    	handler:function(){
+    		ftypeOp="addFtype";
+    		ftypeFlag="添加";
+			if(ftypeEditRow==undefined){
+				ftypeObj.datagrid('insertRow',{index:0,row:{}});
+				ftypeObj.datagrid('beginEdit',0);//开始编辑
+				ftypeEditRow=0;
+			}else{
+				ftypeObj.datagrid("rejectChanges");
+				ftypeEditRow=undefined;
+			}
+    	}
+    },'-',{
+    	text:"修改",
+    	iconCls:'icon-edit',
+    	handler:function(){
+    		ftypeOp="updateFtype";
+    		ftypeFlag="修改";
+    		if(ftypeEditRow!=undefined){//有正在编辑的行
+        		ftypeObj.datagrid("endEdit",ftypeEditRow);//结束编辑
+    			ftypeObj.datagrid("rejectChanges");//回滚数据，恢复到编辑前状态
+				ftypeEditRow=undefined;    		
+    		}
+    		
+    		var row=ftypeObj.datagrid("getChecked")[0];//获取正在编辑的行
+    		if(row==undefined){//没有选择行
+				$.messager.show({title:'提示',msg:'请选择要修改的类型...',timeout:2000,showType:'slide'});
+    		}else{
+    			var index=ftypeObj.datagrid('getRowIndex',row);
+    			ftypeObj.datagrid('beginEdit',index);
+    			ftypeEditRow=index;
+    		}
+    	}
+    },'-',{
+    	text:"删除",
+    	iconCls:'icon-remove',
+    	handler:function(){
+    		var row=ftypeObj.datagrid("getChecked");//获取被选择的行
+    		if(row.length<=0){
+				$.messager.show({title:'提示',msg:'请先选择您要删除的类型...',timeout:2000,showType:'slide'});
+    		}else{
+    			var fids="";
+    			for(var i=0;i<row.length-1;i++){
+    				fids+=row[i].fid+",";
+    			}
+				fids+=row[i].fid;
+				$.post('../ftype/deleteFtype',{fids:fids},function(data){
+        			if(data>0){
+        				$.messager.show({title:'成功提示',msg:'删除类型成功...',timeout:2000,showType:'slide'});
+        				ftypeObj.datagrid("reload");
+        			}else{
+        				ftypeObj.datagrid("rejectChanges");
+        				$.messager.alert("失败提示","删除类型失败",'error');
+        			}
+        		},'text');	
+    		}
+    	}
+    },'-',{
+    	text:"保存",
+    	iconCls:'icon-save',
+    	handler:function(){
+    		ftypeObj.datagrid("endEdit",ftypeEditRow);
+    		var row=ftypeObj.datagrid("getChanges")[0];
+    		if(row!=undefined){
+    			row.op=ftypeOp;
+        		$.post('../ftype/'+ftypeOp,{fid:row.fid,fname:row.fname},function(data){
+        			if(data>0){
+        				$.messager.show({title:'成功提示',msg:ftypeFlag+'保存类型成功...',timeout:2000,showType:'slide'});
+        				ftypeObj.datagrid("reload");//重载所有记录
+        			}else{
+        				ftypeObj.datagrid("rejectChanges");
+        				$.messager.alert("失败提示",ftypeFlag+"保存类型失败",'error');
+        			}
+        			ftypeEditRow=undefined;
+        		},'text');	
+    		}else{
+    			ftypeObj.datagrid("rejectChanges");
+				ftypeEditRow=undefined;
+    		}
+    	}
+    },'-',{
+    	text:"撤销",
+    	iconCls:'icon-undo',
+    	handler:function(){
+    		var row=ftypeObj.datagrid("getChecked")[0];//获取正在编辑的行
+    		var index=ftypeObj.datagrid('getRowIndex',row);
+			ftypeObj.datagrid('cancelEdit',index);
+			ftypeEditRow=index;
+    	}
+    }]  
+}); 
+
+</script>

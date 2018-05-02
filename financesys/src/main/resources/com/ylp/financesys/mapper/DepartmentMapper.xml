@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ylp.financesys.mapper.DepartmentMapper">
+	<insert id="addDept" parameterType="Department">
+		<selectKey keyProperty="did" keyColumn="did" order="BEFORE" resultType="String">
+			select seq_department_did.nextval from dual 
+		</selectKey>
+		insert into department values(#{did},#{dname})
+	</insert>
+	
+	<select id="findByPage" resultType="Department" parameterType="Map">
+		select dname,did from (select rownum rn ,a.* from department a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+	</select>
+	
+	<select id="findAll" resultType="Department">
+		select did,dname from department
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(did) from department
+	</select>
+	<delete id="delete" parameterType="String">
+		delete from department where did in
+		<!-- collection 表示集合类型 -->
+		<foreach collection="list" item="did" open="(" close=")" separator=",">
+			#{did}
+		</foreach>
+	</delete> 
+	
+	<update id="update" parameterType="Department">
+		update department set dname=#{dname} where did=#{did}
+	</update>
+</mapper>
