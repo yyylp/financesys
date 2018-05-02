@@ -1,0 +1,28 @@
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<table id="fitems_data"></table>
+<script type="text/javascript">
+$('#fitems_data').datagrid({   
+    url:'../fitems/findByPage',   
+    fitColumns:true,
+    pagination:true,
+    pageSize:5,
+    pageList:[5,10,20,30,40,50],
+    striped:true,
+    rownumbers:true,
+    sortName:"imid",
+    remoteSort:false,
+    fit:true,
+    columns:[[
+     	{field:"imids",checkbox:true},
+        {field:'imid',title:'类目编号',width:50,align:'center',sortable:true},   
+        {field:'iname',title:'类目名称',width:50,align:'center'},
+        {field:'fname',title:'类目类型',width:50,align:'center'},
+    ]]
+}); 
+
+</script>

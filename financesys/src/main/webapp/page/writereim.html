@@ -1,0 +1,56 @@
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/showpic.js"></script>
+<script type="text/javascript" src="../js/ajaxfileupload.js"></script>
+<style>
+#selectImg {
+	width: 100%;
+	height: 150px;
+}
+</style>
+
+<p>报销金额：<input type="text" name="price"></p>
+<p>财务条目：<select id="items"></select></p>
+备注：<textarea cols="180" rows="10" id="remark"></textarea>
+<p>报销凭证：<input type="file" multiple="multiple" name="selectPic" id="selectPic" onchange="setImagePreviews(this,'selectImg')"></p>
+<div id="selectImg"></div>
+<p style="text-align: center;"><input type="button" value="提交申请" onclick="addReim()"></p>
+
+<script type="text/javascript" >
+	$(function(){
+		$.post("../fitems/findAll",{},function(data){
+			$.each(data,function(index,item){
+				$("#items").append("<option value="+item.imid+">"+item.iname+"</option>");
+			});
+		},'json');
+	});
+	
+	function addReim(){
+		var imid=$("#items").val();
+		var remark=$("#remark").val();
+		$.ajaxFileUpload({
+			url : '../reiminfo/addReim',
+			secureuri : false,
+			fileElementId :"selectPic",
+			dataType : "text",
+			data:{imid:imid,remark:remark},
+			success : function(data, status) {
+				data = $.trim(data);
+				if (data == 0) {
+					
+				}else if(data==-1){
+				
+				} else if(data!=null){
+					
+				}
+			},
+			error:function(data,status,error){
+				alert(error);
+			}
+		});
+	}
+</script>

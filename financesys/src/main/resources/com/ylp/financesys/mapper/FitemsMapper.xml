@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ylp.financesys.mapper.FitemsMapper">
+	<insert id="addFitems" parameterType="Fitems">
+		<selectKey keyProperty="imid" keyColumn="imid" order="BEFORE" resultType="String">
+			select seq_Fitems_imid.nextval from dual 
+		</selectKey>
+		insert into Fitems values(#{imid},#{iname},#{fid})
+	</insert>
+	
+	<select id="findByPage" resultType="Fitems" parameterType="Map">
+		select iname,imid ,fname from (select rownum rn ,a.* from (select iname,imid,fname from fitems i join ftype t on i.fid=t.fid) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+	</select>
+	<select id="findAll" resultType="Fitems">
+		select iname,imid from Fitems
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(imid) from Fitems
+	</select>
+	<delete id="delete" parameterType="String">
+		delete from Fitems where imid in
+		<!-- collection 表示集合类型 -->
+		<foreach collection="list" item="imid" open="(" close=")" separator=",">
+			#{imid}
+		</foreach>
+	</delete> 
+	
+	<update id="update" parameterType="Fitems">
+		update Fitems set iname=#{iname},fid=#{fid} where imid=#{imid}
+	</update>
+</mapper>

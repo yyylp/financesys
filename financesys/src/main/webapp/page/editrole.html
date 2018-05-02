@@ -1,0 +1,123 @@
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<table id="role_data"></table>
+<script type="text/javascript">
+var roleEditRow=undefined;
+var roleOp;
+var roleFlag;
+var roleObj=$('#role_data').datagrid({   
+    url:'../role/findByPage',   
+    fitColumns:true,
+    pagination:true,
+    pageSize:5,
+    pageList:[5,10,20,30,40,50],
+    striped:true,
+    rownumbers:true,
+    sortName:"sid",
+    remoteSort:false,
+    fit:true,
+    columns:[[
+     	{field:"sids",checkbox:true},
+        {field:'sid',title:'角色编号',width:50,align:'center',sortable:true},   
+        {field:'sname',title:'角色名称',width:50,align:'center',editor:{type:'text',options:{required:true}}}
+    ]],
+    toolbar:[{
+    	text:"添加",
+    	iconCls:'icon-add',
+    	handler:function(){
+    		roleOp="addRole";
+    		roleFlag="添加";
+			if(roleEditRow==undefined){
+				roleObj.datagrid('insertRow',{index:0,row:{}});
+				roleObj.datagrid('beginEdit',0);//开始编辑
+				roleEditRow=0;
+			}else{
+				roleObj.datagrid("rejectChanges");
+				roleEditRow=undefined;
+			}
+    	}
+    },'-',{
+    	text:"修改",
+    	iconCls:'icon-edit',
+    	handler:function(){
+    		roleOp="updateRole";
+    		roleFlag="修改";
+    		if(roleEditRow!=undefined){//有正在编辑的行
+        		roleObj.datagrid("endEdit",roleEditRow);//结束编辑
+    			roleObj.datagrid("rejectChanges");//回滚数据，恢复到编辑前状态
+				roleEditRow=undefined;    		
+    		}
+    		
+    		var row=roleObj.datagrid("getChecked")[0];//获取正在编辑的行
+    		if(row==undefined){//没有选择行
+				$.messager.show({title:'提示',msg:'请选择要修改的角色...',timeout:2000,showType:'slide'});
+    		}else{
+    			var index=roleObj.datagrid('getRowIndex',row);
+    			roleObj.datagrid('beginEdit',index);
+    			roleEditRow=index;
+    		}
+    	}
+    },'-',{
+    	text:"删除",
+    	iconCls:'icon-remove',
+    	handler:function(){
+    		var row=roleObj.datagrid("getChecked");//获取被选择的行
+    		if(row.length<=0){
+				$.messager.show({title:'提示',msg:'请先选择您要删除的角色...',timeout:2000,showType:'slide'});
+    		}else{
+    			var sids="";
+    			for(var i=0;i<row.length-1;i++){
+    				sids+=row[i].sid+",";
+    			}
+				sids+=row[i].sid;
+				$.post('../role/deleteRole',{sids:sids},function(data){
+        			if(data>0){
+        				$.messager.show({title:'成功提示',msg:'删除角色成功...',timeout:2000,showType:'slide'});
+        				roleObj.datagrid("reload");
+        			}else{
+        				roleObj.datagrid("rejectChanges");
+        				$.messager.alert("失败提示","删除角色失败",'error');
+        			}
+        		},'text');	
+    		}
+    	}
+    },'-',{
+    	text:"保存",
+    	iconCls:'icon-save',
+    	handler:function(){
+    		roleObj.datagrid("endEdit",roleEditRow);
+    		var row=roleObj.datagrid("getChanges")[0];
+    		if(row!=undefined){
+    			row.op=roleOp;
+        		$.post('../role/'+roleOp,{sid:row.sid,sname:row.sname},function(data){
+        			if(data>0){
+        				$.messager.show({title:'成功提示',msg:roleFlag+'保存角色成功...',timeout:2000,showType:'slide'});
+        				roleObj.datagrid("reload");//重载所有记录
+        			}else{
+        				roleObj.datagrid("rejectChanges");
+        				$.messager.alert("失败提示",roleFlag+"保存角色失败",'error');
+        			}
+        			roleEditRow=undefined;
+        		},'text');	
+    		}else{
+    			roleObj.datagrid("rejectChanges");
+				roleEditRow=undefined;
+    		}
+    	}
+    },'-',{
+    	text:"撤销",
+    	iconCls:'icon-undo',
+    	handler:function(){
+    		var row=roleObj.datagrid("getChecked")[0];//获取正在编辑的行
+    		var index=roleObj.datagrid('getRowIndex',row);
+			roleObj.datagrid('cancelEdit',index);
+			roleEditRow=index;
+    	}
+    }]  
+}); 
+
+</script>

@@ -1,0 +1,123 @@
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<table id="dept_data"></table>
+<script type="text/javascript">
+var deptEditRow=undefined;
+var deptOp;
+var deptFlag;
+var deptObj=$('#dept_data').datagrid({   
+    url:'../dept/findByPage',   
+    fitColumns:true,
+    pagination:true,
+    pageSize:5,
+    pageList:[5,10,20,30,40,50],
+    striped:true,
+    rownumbers:true,
+    sortName:"did",
+    remoteSort:false,
+    fit:true,
+    columns:[[
+     	{field:"dids",checkbox:true},
+        {field:'did',title:'部门编号',width:50,align:'center',sortable:true},   
+        {field:'dname',title:'部门名称',width:50,align:'center',editor:{type:'text',options:{required:true}}}
+    ]],
+    toolbar:[{
+    	text:"添加",
+    	iconCls:'icon-add',
+    	handler:function(){
+    		deptOp="addDept";
+    		deptFlag="添加";
+			if(deptEditRow==undefined){
+				deptObj.datagrid('insertRow',{index:0,row:{}});
+				deptObj.datagrid('beginEdit',0);//开始编辑
+				deptEditRow=0;
+			}else{
+				deptObj.datagrid("rejectChanges");
+				deptEditRow=undefined;
+			}
+    	}
+    },'-',{
+    	text:"修改",
+    	iconCls:'icon-edit',
+    	handler:function(){
+    		deptOp="updateDept";
+    		deptFlag="修改";
+    		if(deptEditRow!=undefined){//有正在编辑的行
+        		deptObj.datagrid("endEdit",deptEditRow);//结束编辑
+    			deptObj.datagrid("rejectChanges");//回滚数据，恢复到编辑前状态
+				deptEditRow=undefined;    		
+    		}
+    		
+    		var row=deptObj.datagrid("getChecked")[0];//获取正在编辑的行
+    		if(row==undefined){//没有选择行
+				$.messager.show({title:'提示',msg:'请选择要修改的角色...',timeout:2000,showType:'slide'});
+    		}else{
+    			var index=deptObj.datagrid('getRowIndex',row);
+    			deptObj.datagrid('beginEdit',index);
+    			deptEditRow=index;
+    		}
+    	}
+    },'-',{
+    	text:"删除",
+    	iconCls:'icon-remove',
+    	handler:function(){
+    		var row=deptObj.datagrid("getChecked");//获取被选择的行
+    		if(row.length<=0){
+				$.messager.show({title:'提示',msg:'请先选择您要删除的角色...',timeout:2000,showType:'slide'});
+    		}else{
+    			var dids="";
+    			for(var i=0;i<row.length-1;i++){
+    				dids+=row[i].did+",";
+    			}
+				dids+=row[i].did;
+				$.post('../dept/deleteDept',{dids:dids},function(data){
+        			if(data>0){
+        				$.messager.show({title:'成功提示',msg:'删除角色成功...',timeout:2000,showType:'slide'});
+        				deptObj.datagrid("reload");
+        			}else{
+        				deptObj.datagrid("rejectChanges");
+        				$.messager.alert("失败提示","删除角色失败",'error');
+        			}
+        		},'text');	
+    		}
+    	}
+    },'-',{
+    	text:"保存",
+    	iconCls:'icon-save',
+    	handler:function(){
+    		deptObj.datagrid("endEdit",deptEditRow);
+    		var row=deptObj.datagrid("getChanges")[0];
+    		if(row!=undefined){
+    			row.op=deptOp;
+        		$.post('../dept/'+deptOp,{did:row.did,dname:row.dname},function(data){
+        			if(data>0){
+        				$.messager.show({title:'成功提示',msg:deptFlag+'保存角色成功...',timeout:2000,showType:'slide'});
+        				deptObj.datagrid("reload");//重载所有记录
+        			}else{
+        				deptObj.datagrid("rejectChanges");
+        				$.messager.alert("失败提示",deptFlag+"保存角色失败",'error');
+        			}
+        			deptEditRow=undefined;
+        		},'text');	
+    		}else{
+    			deptObj.datagrid("rejectChanges");
+				deptEditRow=undefined;
+    		}
+    	}
+    },'-',{
+    	text:"撤销",
+    	iconCls:'icon-undo',
+    	handler:function(){
+    		var row=deptObj.datagrid("getChecked")[0];//获取正在编辑的行
+    		var index=deptObj.datagrid('getRowIndex',row);
+			deptObj.datagrid('cancelEdit',index);
+			deptEditRow=index;
+    	}
+    }]  
+}); 
+
+</script>

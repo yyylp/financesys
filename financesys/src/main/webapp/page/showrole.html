@@ -1,0 +1,25 @@
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<table id="role_data"></table>
+<script type="text/javascript">
+$('#role_data').datagrid({   
+    url:'../role/findByPage',   
+    fitColumns:true,
+    pagination:true,
+    pageSize:5,
+    pageList:[5,10,20,30,40,50],
+    striped:true,
+    rownumbers:true,
+    sortName:"sid",
+    remoteSort:false,
+    fit:true,
+    columns:[[   
+        {field:'sid',title:'角色编号',width:50,align:'center',sortable:true},   
+        {field:'sname',title:'角色名称',width:50,align:'center'}
+    ]]  
+}); 
+</script>
