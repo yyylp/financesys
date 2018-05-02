@@ -31,6 +31,6 @@
 	</update>
 	
 	<select id="login" parameterType="map" resultType="Employer">
-		select ename,eid,tel,pwd,sname,dname,e.did,e.sid from (select * from Employer where ename=#{name} or tel=#{name} and pwd=#{pwd}) e,department d,sysrole s where e.did=d.did and e.sid=s.sid
+		select ename,eid,tel,pwd,sname,dname,e.did,e.sid from (select * from Employer where (ename=#{name} or tel=#{name}) and pwd=#{pwd}) e,department d,sysrole s where e.did=d.did and e.sid=s.sid
 	</select>
 </mapper>

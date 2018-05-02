@@ -26,7 +26,7 @@
                     <span id="password-msg" class="error"></span>
 				</li>
 				<li class="login-sub">
-					<input type="submit" name="button" value="登录" onclick="login()"/>
+					<input type="button" name="btn_login" value="登录" onclick="login()"/>
                     <input type="reset" name="Reset" value="重置" />
 				</li> 
 			</ul>                     
@@ -39,8 +39,14 @@
 	function login(){
 		var name=$("#username").val();
 		var pwd=$("#password").val();
+		console.log(name);
+		console.log(pwd);
 		$.post("../emp/login",{name:name,pwd:pwd},function(data){
-			console.log(data);
+			if(data>0){
+				location.href="index.jsp";
+			}else{
+				alert("用户名或密码错误，请重新输入");
+			}
 		},'text');
 	}
 </script>

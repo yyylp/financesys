@@ -14,7 +14,7 @@ import com.ylp.financesys.dao.IBaseDao;
 @Service
 public class EmployerBizImpl implements IEmployerBiz{
 	@Autowired
-	IBaseDao baseDao;
+	IBaseDao<Employer> baseDao;
 	
 	@Override
 	public Map<String, Object> findByPage(Integer pageNo, Integer pageSize) {

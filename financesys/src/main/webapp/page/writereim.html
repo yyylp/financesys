@@ -13,7 +13,7 @@
 }
 </style>
 
-<p>报销金额：<input type="text" name="price"></p>
+<p>报销金额：<input type="text" name="price" id="reim_price"></p>
 <p>财务条目：<select id="items"></select></p>
 备注：<textarea cols="180" rows="10" id="remark"></textarea>
 <p>报销凭证：<input type="file" multiple="multiple" name="selectPic" id="selectPic" onchange="setImagePreviews(this,'selectImg')"></p>
@@ -32,12 +32,16 @@
 	function addReim(){
 		var imid=$("#items").val();
 		var remark=$("#remark").val();
+		var price=$("#reim_price").val();
+		console.log(price);
+		console.log(imid);
+		console.log(remark);
 		$.ajaxFileUpload({
 			url : '../reiminfo/addReim',
 			secureuri : false,
 			fileElementId :"selectPic",
 			dataType : "text",
-			data:{imid:imid,remark:remark},
+			data:{imid:imid,remark:remark,price:price},
 			success : function(data, status) {
 				data = $.trim(data);
 				if (data == 0) {

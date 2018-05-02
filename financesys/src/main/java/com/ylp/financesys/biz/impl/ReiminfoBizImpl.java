@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ylp.financesys.bean.Ftype;
 import com.ylp.financesys.bean.Reiminfo;
 import com.ylp.financesys.biz.IReiminfoBiz;
 import com.ylp.financesys.dao.IBaseDao;
@@ -15,7 +14,7 @@ import com.ylp.financesys.dao.IBaseDao;
 @Service
 public class ReiminfoBizImpl implements IReiminfoBiz{
 	@Autowired
-	IBaseDao baseDao;
+	IBaseDao<Reiminfo> baseDao;
 	@Override
 	public Map<String, Object> findByPage(Integer pageNo, Integer pageSize) {
 		Map<String, Object> params=new HashMap<String, Object>();

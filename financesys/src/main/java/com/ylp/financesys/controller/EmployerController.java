@@ -49,13 +49,13 @@ public class EmployerController {
 	
 	@RequestMapping("/login")
 	@ResponseBody
-	public String login(@RequestParam("name") String name,@RequestParam("pwd") String pwd,HttpSession session){
+	public int login(@RequestParam("name") String name,@RequestParam("pwd") String pwd,HttpSession session){
 		Employer employer=employerBiz.login(name, pwd);
 		if (employer!=null) {			
 			session.setAttribute("currentLogin",employer);
 			System.out.println(employer);
-			return "1";
+			return 1;
 		}
-		return "0";
+		return 0;
 	}
 }

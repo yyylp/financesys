@@ -44,13 +44,10 @@ public class MenuitemController {
 		if (menutypes!=null&&menutypes.size()>0) {
 			for (Menutype menutype : menutypes) {
 				Map<String, Object> node=new HashMap<String, Object>();
-				Map<String, Object> attribute=new HashMap<String, Object>();
 				node.put("id", ++id);
 				node.put("text", menutype.getMtname());
 				node.put("state", state);
 				node.put("ckecked", checked);
-				attribute.put("url","");
-				node.put("attributes", attribute);
 				List<Map<String, Object>> chidren=new ArrayList<Map<String,Object>>();
 				if (menuitems!=null&&menuitems.size()>0) {
 					int i=0;
@@ -59,7 +56,6 @@ public class MenuitemController {
 							Map<String, Object> child=new HashMap<String, Object>();
 							child.put("id", String.valueOf(id)+String.valueOf(++i));
 							child.put("text", menuitem.getMname());
-							child.put("state", state);
 							child.put("ckecked", checked);
 							Map<String, Object> attr=new HashMap<String, Object>();
 							attr.put("url", menuitem.getAttr()+".html");

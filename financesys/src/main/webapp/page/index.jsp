@@ -55,7 +55,7 @@
     <!-- end of main --> 
     <!-- begin of footer -->
 	<div class="wu-footer" data-options="region:'south',border:true,split:true">
-    	&copy; 2013 Wu All Rights Reserved
+    	&copy; 2018 杨丽萍 14软件工程01班
     </div>
     <!-- end of footer -->  
     <script type="text/javascript">
