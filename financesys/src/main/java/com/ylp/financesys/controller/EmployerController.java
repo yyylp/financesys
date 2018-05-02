@@ -57,5 +57,6 @@ public class EmployerController {
 			return 1;
 		}
 		return 0;
+
 	}
 }

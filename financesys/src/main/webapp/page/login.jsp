@@ -26,7 +26,7 @@
                     <span id="password-msg" class="error"></span>
 				</li>
 				<li class="login-sub">
-					<input type="button" name="btn_login" value="登录" onclick="login()"/>
+					<input type="submit" name="button" value="登录" onclick="login()"/>
                     <input type="reset" name="Reset" value="重置" />
 				</li> 
 			</ul>                     

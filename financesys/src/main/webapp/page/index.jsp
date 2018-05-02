@@ -55,7 +55,11 @@
     <!-- end of main --> 
     <!-- begin of footer -->
 	<div class="wu-footer" data-options="region:'south',border:true,split:true">
+<<<<<<< HEAD
     	&copy; 2018 杨丽萍 14软件工程01班
+=======
+    	&copy; 2013 Wu All Rights Reserved
+>>>>>>> branch 'master' of https://github.com/yyylp/financesys.git
     </div>
     <!-- end of footer -->  
     <script type="text/javascript">
