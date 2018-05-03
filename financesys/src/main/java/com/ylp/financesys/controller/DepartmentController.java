@@ -1,5 +1,6 @@
 package com.ylp.financesys.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,4 +50,5 @@ public class DepartmentController {
 		Gson gson=new Gson();
 		return gson.toJson(departmentBiz.findAll());
 	}
+	
 }

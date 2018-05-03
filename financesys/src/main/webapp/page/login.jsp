@@ -13,7 +13,7 @@
 	<div class="loginwarrp">
 		<div class="logo">用户登陆</div>
         <div class="login_form">
-			<form id="Login" name="Login" method="post" onsubmit="" action="">
+			<form id="Login" name="Login" method="post" onsubmit="login()">
 			<ul>
 				<li class="login-item">
 					<span>用户名：</span>
@@ -26,7 +26,7 @@
                     <span id="password-msg" class="error"></span>
 				</li>
 				<li class="login-sub">
-					<input type="submit" name="button" value="登录" onclick="login()"/>
+					<input type="submit" name="button" value="登录"/>
                     <input type="reset" name="Reset" value="重置" />
 				</li> 
 			</ul>                     
@@ -39,8 +39,6 @@
 	function login(){
 		var name=$("#username").val();
 		var pwd=$("#password").val();
-		console.log(name);
-		console.log(pwd);
 		$.post("../emp/login",{name:name,pwd:pwd},function(data){
 			if(data>0){
 				location.href="index.jsp";

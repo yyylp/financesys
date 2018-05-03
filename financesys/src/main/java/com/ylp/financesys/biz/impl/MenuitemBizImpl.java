@@ -19,8 +19,8 @@ public class MenuitemBizImpl implements IMenuitemBiz{
 	}
 
 	@Override
-	public List<Menuitem> findByEmp(String eid) {
-		return baseDao.findAll(Menuitem.class, "findByEmp", eid);
+	public List<Menuitem> findByEmp(String sid) {
+		return baseDao.findAll(Menuitem.class, "findByEid", sid);
 	}
 
 }

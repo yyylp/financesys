@@ -7,4 +7,8 @@
 	<select id="findAll" resultType="Menuitem">
 		select mid,mname,m.mtid,mtname,attr from menuitem m join menutype mt on m.mtid=mt.mtid
 	</select>
+	<select id="findByEid" resultType="Menuitem" parameterType="String">
+		select * from (select mid,mname,m.mtid,mtname,attr from menuitem m join menutype mt on m.mtid=mt.mtid)
+		 a ,  sysright sr where a.mid=sr.mid and sr.sid=#{sid}
+	</select>
 </mapper>

@@ -14,7 +14,7 @@ import com.ylp.financesys.dao.IBaseDao;
 @Service
 public class SysroleBizImpl implements ISysroleBiz{
 	@Autowired
-	private IBaseDao baseDao;
+	private IBaseDao<Sysrole> baseDao;
 	
 	@Override
 	public int addRole(Sysrole sysrole) {
