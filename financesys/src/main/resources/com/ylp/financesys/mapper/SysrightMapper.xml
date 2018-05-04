@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ylp.financesys.mapper.SysrightMapper">
+	<insert id="addRight" parameterType="map">
+		<!-- <selectKey keyProperty="erid" keyColumn="eid" order="BEFORE" resultType="String">
+			select seq_sysright_erid.nextval from dual 
+		</selectKey>
+		<selectKey></selectKey> -->
+		insert into sysright(srid,sid,mid) select seq_sysright_srid.nextval srid,${sid},mid from(
+		<foreach collection="mids" item="item" index="index" separator="union all">
+			select ${item,jdbcType=VARCHAR} mid from dual
+		</foreach>)
+	</insert>
+	
+	<select id="findBySid" parameterType="Sysright" resultType="String">
+		select mid from sysright where sid=${sid}
+	</select>
+	
+	<select id="findBySidMid" parameterType="Sysright" resultType="Sysright">
+		select srid,sid,mid from sysright where sid=${sid} and mid=${mid}
+	</select>
+	
+	<delete id="deleteBySid" parameterType="map">
+		delete from sysright where sid=${sid} and mid not in
+		<foreach collection="dels" item="item" index="index" open="(" close=")" separator=",">
+			${item}
+		</foreach>
+	</delete>
+</mapper>
