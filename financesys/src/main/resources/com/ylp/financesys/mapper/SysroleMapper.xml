@@ -8,7 +8,7 @@
 		<selectKey keyProperty="sid" keyColumn="sid" order="BEFORE" resultType="String">
 			select seq_sysrole_sid.nextval from dual 
 		</selectKey>
-		insert into sysrole values(#{sid},#{sname})
+		insert into sysrole values(${sid},${sname})
 	</insert>
 	
 	<select id="findByPage" resultType="Sysrole" parameterType="Map">
@@ -25,11 +25,11 @@
 		delete from sysrole where sid in
 		<!-- collection 表示集合类型 -->
 		<foreach collection="list" item="sid" open="(" close=")" separator=",">
-			#{sid}
+			${sid}
 		</foreach>
 	</delete> 
 	
 	<update id="update" parameterType="Sysrole">
-		update sysrole set sname=#{sname} where sid=#{sid}
+		update sysrole set sname=${sname} where sid=${sid}
 	</update>
 </mapper>

@@ -1,0 +1,70 @@
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/showpic.js"></script>
+<script type="text/javascript" src="../js/ajaxfileupload.js"></script>
+<style>
+#selectImg {
+	width: 100%;
+	height: 150px;
+}
+</style>
+
+<p>报销金额：<input type="text" name="price" id="edit_price"></p>
+<p>财务条目：<select id="items"></select></p>
+说明：<textarea cols="180" rows="10" id="edit_mark"></textarea>
+<p>报销凭证：<input type="file" multiple="multiple" name="selectPic" id="selectPic" onchange="setImagePreviews(this,'edit_showpic')"></p>
+<div id="edit_showpic"></div>
+<p style="text-align: center;"><input type="button" value="提交申请" onclick="addReim()"></p>
+
+<script type="text/javascript" >
+	var rid;
+	//加载数据
+	$(function(){
+		$.post("../reiminfo/findByRid",{},function(data){
+			gid=data.rid;
+			$('#edit_price').val(data.price);
+			$('#edit_mark').val(data.remark);
+			if(data.proof!=null){
+				$('#edit_showpic').html('<img src=../../'+data.proof+' width="80px" height="80px"/>');
+			}
+			
+		},'json');	
+	});
+
+	//显示报销类目
+	$(function(){
+		$.post("../fitems/findAll",{},function(data){
+			$.each(data,function(index,item){
+				$("#items").append("<option value="+item.imid+">"+item.iname+"</option>");
+			});
+		},'json');
+	});
+	
+	function addReim(){
+		var imid=$("#items").val();
+		var remark=$("#remark").val();
+		var price=$("#reim_price").val();
+		$.ajaxFileUpload({
+			url : '../reiminfo/addReim',
+			secureuri : false,
+			fileElementId :"selectPic",
+			dataType : "text",
+			data:{imid:imid,remark:remark,price:price},
+			success : function(data, status) {
+				data = $.trim(data);
+				if (data == 1) {
+    				$.messager.show({title:'成功提示',msg:'申请提交成功，请等待审核',timeout:2000,showType:'slide'});
+				}else{
+    				$.messager.alert("失败提示","申请提交失败，请重新提交",'error');
+				} 
+			},
+			error:function(data,status,error){
+				alert(error);
+			}
+		});
+	}
+</script>

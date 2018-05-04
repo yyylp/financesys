@@ -1,9 +1,3 @@
-<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
-<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
-<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
 <div id="search_goods">
 	
 	<label>姓名：</label>
@@ -13,16 +7,16 @@
 		<option value="">--全部--</option>
 	</select>
 	<label>角色:</label>
-	<select id="role_list">
+	<select id="role_list_emp">
 		<option value="">--全部--</option>
 	</select>
 	<label>电话号码：</label>
 	<input type="text" name="tel" id="emp_search_tel"/>&nbsp;
 	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="searchEmp()">查询</a>  
 </div>
-<table id="emp_data"></table>
+<table id="emp_data_show"></table>
 <script type="text/javascript">
-$('#emp_data').datagrid({   
+$('#emp_data_show').datagrid({   
     url:'../emp/findByPage',   
     fitColumns:true,
     pagination:true,
@@ -47,7 +41,7 @@ function searchEmp(){
 	var ename=$('#emp_search_ename').val();
 	var dept=$('#dept_list').val();
 	var tel=$('#emp_search_tel').val();
-	var role=$('#role_list').val();
+	var role=$('#role_list_emp').val();
 	$('#emp_data').datagrid({
 		url:"../emp/findByCondition",
 		queryParams:{ename:ename,dept:dept,tel:tel,role:role}

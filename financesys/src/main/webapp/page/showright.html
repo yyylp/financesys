@@ -1,0 +1,27 @@
+<table id="sysright_data_show"></table>
+<script type="text/javascript">
+$('#sysright_data_show').datagrid({   
+    url:'../menu/findByPage',   
+    fitColumns:true,
+    pagination:true,
+    pageSize:20,
+    pageList:[5,10,20,30,40,50],
+    striped:true,
+    rownumbers:true,
+    sortName:"mtname",
+    remoteSort:false,
+    fit:true,
+    columns:[[
+        {field:'mtname',title:'权限类别',width:50,align:'center',sortable:true},   
+        {field:'mname',title:'权限名称',width:50,align:'center'},
+        {field:'flag',title:'是否拥有权限',width:50,align:'center',formatter: function(value,row,index){
+			if (row.flag==1){
+				return "yes";
+			} else {
+				return "no";
+			}
+		}
+}
+    ]]
+}); 
+</script>

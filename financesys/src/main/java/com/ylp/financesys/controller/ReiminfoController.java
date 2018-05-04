@@ -134,4 +134,25 @@ public class ReiminfoController {
 		System.out.println(map);
 		return reiminfoBiz.findByCondition(pageNo, pageSize, map);
 	}
+	
+	@RequestMapping("/editReim")
+	@ResponseBody
+	public int editReim(@RequestParam("rid") String rid,HttpSession session){
+		if (!StringUtil.isNull(rid)) {
+			session.setAttribute("currentEditReim", rid);
+			return 1;
+		}
+		return 0;
+	}
+	@RequestMapping("/findByRid")
+	@ResponseBody
+	public String findByRid(HttpSession session){
+		String rid=(String) session.getAttribute("currentEditReim");
+		if (!StringUtil.isNull(rid)) {
+			Gson gson=new Gson();
+			System.out.println(reiminfoBiz.findByRid(rid));
+			return gson.toJson(reiminfoBiz.findByRid(rid));
+		}
+		return null;
+	}
 }

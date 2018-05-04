@@ -1,15 +1,9 @@
-<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
-<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
-<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
-<table id="role_data"></table>
+<table id="role_data_edit"></table>
 <script type="text/javascript">
 var roleEditRow=undefined;
 var roleOp;
 var roleFlag;
-var roleObj=$('#role_data').datagrid({   
+var roleObj=$('#role_data_edit').datagrid({   
     url:'../role/findByPage',   
     fitColumns:true,
     pagination:true,

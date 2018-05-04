@@ -8,7 +8,7 @@
 		<selectKey keyProperty="eid" keyColumn="eid" order="BEFORE" resultType="String">
 			select seq_Employer_eid.nextval from dual 
 		</selectKey>
-		insert into Employer values(#{eid},#{ename},'123456',#{tel},#{did},#{sid})
+		insert into Employer values(${eid},${ename},'123456',${tel},${did},${sid})
 	</insert>
 	
 	<select id="findByPage" resultType="Employer" parameterType="Map">
@@ -22,52 +22,52 @@
 		delete from Employer where eid in
 		<!-- collection 表示集合类型 -->
 		<foreach collection="list" item="eid" open="(" close=")" separator=",">
-			#{eid}
+			${eid}
 		</foreach>
 	</delete> 
 	
 	<update id="update" parameterType="Employer">
-		update Employer set ename=#{ename},tel=#{tel},did=#{did},sid=#{sid} where eid=#{eid}
+		update Employer set ename=${ename},tel=${tel},did=${did},sid=${sid} where eid=${eid}
 	</update>
 	
 	<select id="login" parameterType="map" resultType="Employer">
-		select ename,eid,tel,pwd,sname,dname,e.did,e.sid from (select * from Employer where (ename=#{name} or tel=#{name}) and pwd=#{pwd}) e,department d,sysrole s where e.did=d.did and e.sid=s.sid
+		select ename,eid,tel,pwd,sname,dname,e.did,e.sid from (select * from Employer where (ename=${name} or tel=${name}) and pwd=${pwd}) e,department d,sysrole s where e.did=d.did and e.sid=s.sid
 	</select>
 	
 	<select id="findByRole" parameterType="String" resultType="String">
-		select eid from employer e,sysrole s where e.sid=s.sid and s.sname=#{role}
+		select eid from employer e,sysrole s where e.sid=s.sid and s.sname=${role}
 	</select>
 	<select id="findDeptManager" parameterType="String" resultType="String">
-		select eid from employer e,sysrole s where did=#{did} and e.sid=s.sid and s.sname='部门经理'
+		select eid from employer e,sysrole s where did=${did} and e.sid=s.sid and s.sname='部门经理'
 	</select>
 	<select id="findByCondition" parameterType="map" resultType="Employer">
 		select ename,eid,tel,pwd,sname,dname from (select rownum rn ,a.* from (select ename,eid,tel,pwd,sname,dname from Employer e,department d,sysrole s where e.did=d.did and e.sid=s.sid) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
 		<if test="tel!=null">
-			and tel=#{tel}
+			and tel=${tel}
 		</if>
 		<if test="ename!=null">
-			and ename like #{ename}
+			and ename like ${ename}
 		</if>
 		<if test="dept!=null">
-			and dname=#{dept}
+			and dname=${dept}
 		</if>
 		<if test="sname!=null">
-			and sname=#{sname}
+			and sname=${sname}
 		</if>
 	</select>
 	<select id="getTotalByCondition" parameterType="map" resultType="Employer">
 		select count(eid) from Employer e,department d,sysrole s where e.did=d.did and e.sid=s.sid
 		<if test="tel!=null">
-			and tel=#{tel}
+			and tel=${tel}
 		</if>
 		<if test="ename!=null">
-			and ename like #{ename}
+			and ename like ${ename}
 		</if>
 		<if test="dept!=null">
-			and dname=#{dept}
+			and dname=${dept}
 		</if>
 		<if test="sname!=null">
-			and sname=#{sname}
+			and sname=${sname}
 		</if>
 	</select>
 </mapper>

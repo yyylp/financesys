@@ -1,6 +1,3 @@
-<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
-<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
 
 <style>
 	.bigImg{
@@ -9,12 +6,8 @@
 		left:400px;
 	}
 }
-	
 </style>
 
-<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
 
 	<label>报销类目:</label>
 	<select id="fitems_list">
@@ -86,7 +79,6 @@ $('#reiminfo_data').datagrid({
 
 //加载类目列表
 $.get('../fitems/findAll',{},function(data){
-	console.log(data);
 	$.each(data,function(index,item){
 		$('#fitems_list').append("<option value='"+item.imid+"'>"+item.iname+"</option>");
 	});
@@ -115,11 +107,49 @@ function searchReim(){
 }
 //编辑报销
 function edit(rid){
-	/* var title = "编辑报销申请";
-	var url = "editgoods.html";
+	var title = "编辑报销申请";
+	var url = "editreim.html";
 	var iconCls = "";
 	var iframe = 1;
-	$.post("../../goodsServlet",{op:"editGoods",gid:gid});	
-	addTab(title,url,iconCls,iframe); */
+	$.post("../reiminfo/editReim",{rid:rid});	
+	addTab(title,url,iconCls,iframe); 
+}
+
+/**
+* Name 添加菜单选项
+* Param title 名称
+* Param href 链接
+* Param iconCls 图标样式
+* Param iframe 链接跳转方式（true为iframe，false为href）
+*/	
+function addTab(title, href, iconCls, iframe){
+	var tabPanel = $('#wu-tabs');
+	if(!tabPanel.tabs('exists',title)){
+		var content = '<iframe scrolling="auto" frameborder="0"  src="'+ href +'" style="width:100%;height:100%;"></iframe>';
+		if(iframe){
+			tabPanel.tabs('add',{
+				title:title,
+				content:content,
+				iconCls:iconCls,
+				fit:true,
+				cls:'pd3',
+				closable:true
+			});
+		}
+		else{
+			tabPanel.tabs('add',{
+				title:title,
+				href:href,
+				iconCls:iconCls,
+				fit:true,
+				cls:'pd3',
+				closable:true
+			});
+		}
+	}
+	else
+	{
+		tabPanel.tabs('select',title);
+	}
 }
 </script>

@@ -3,6 +3,7 @@ package com.ylp.financesys.biz;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonElement;
 import com.ylp.financesys.bean.Reiminfo;
 
 public interface IReiminfoBiz {
@@ -50,4 +51,11 @@ public interface IReiminfoBiz {
 	 * @return
 	 */
 	public Map<String, Object> findByCondition(Integer pageNo,Integer pageSize,Map<String, Object> map);
+	
+	/**
+	 * 根据rid查找
+	 * @param rid
+	 * @return
+	 */
+	public Reiminfo findByRid(String rid);
 }

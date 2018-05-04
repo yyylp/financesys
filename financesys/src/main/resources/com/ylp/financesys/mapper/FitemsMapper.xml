@@ -8,7 +8,7 @@
 		<selectKey keyProperty="imid" keyColumn="imid" order="BEFORE" resultType="String">
 			select seq_Fitems_imid.nextval from dual 
 		</selectKey>
-		insert into Fitems values(#{imid},#{iname},#{fid})
+		insert into Fitems values(${imid},${iname},${fid})
 	</insert>
 	
 	<select id="findByPage" resultType="Fitems" parameterType="Map">
@@ -25,11 +25,11 @@
 		delete from Fitems where imid in
 		<!-- collection 表示集合类型 -->
 		<foreach collection="list" item="imid" open="(" close=")" separator=",">
-			#{imid}
+			${imid}
 		</foreach>
 	</delete> 
 	
 	<update id="update" parameterType="Fitems">
-		update Fitems set iname=#{iname},fid=#{fid} where imid=#{imid}
+		update Fitems set iname=${iname},fid=${fid} where imid=${imid}
 	</update>
 </mapper>

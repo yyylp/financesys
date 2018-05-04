@@ -67,4 +67,9 @@ public class ReiminfoBizImpl implements IReiminfoBiz{
 		return results;
 	}
 
+	@Override
+	public Reiminfo findByRid(String rid) {
+		return (Reiminfo) baseDao.find(Reiminfo.class, "findByRid", rid);
+	}
+
 }

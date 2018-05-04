@@ -10,7 +10,7 @@
 	
 	<select id="findBySid" resultType="Menuitem" parameterType="String">
 		select * from (select mid,mname,m.mtid,mtname,attr from menuitem m join menutype mt on m.mtid=mt.mtid)
-		 a ,  sysright sr where a.mid=sr.mid and sr.sid=#{sid}
+		 a ,  sysright sr where a.mid=sr.mid and sr.sid=${sid}
 	</select>
 	
 	<select id="findByPage" resultType="Menuitem" parameterType="Map">

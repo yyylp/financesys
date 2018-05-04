@@ -1,16 +1,10 @@
-<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
-<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
-<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
-<table id="ftype_data"></table>
+<table id="ftype_data_edit"></table>
 <script type="text/javascript">
 
 var ftypeEditRow=undefined;
 var ftypeOp;
 var ftypeFlag;
-var ftypeObj=$('#ftype_data').datagrid({   
+var ftypeObj=$('#ftype_data_edit').datagrid({   
     url:'../ftype/findByPage',   
     fitColumns:true,
     pagination:true,

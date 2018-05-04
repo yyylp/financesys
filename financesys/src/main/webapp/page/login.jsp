@@ -41,7 +41,7 @@
 		var pwd=$("#password").val();
 		$.post("../emp/login",{name:name,pwd:pwd},function(data){
 			if(data>0){
-				window.location.href="index.jsp";
+				window.location.href="index.html";
 			}else{
 				alert("用户名或密码错误，请重新输入");
 			}
