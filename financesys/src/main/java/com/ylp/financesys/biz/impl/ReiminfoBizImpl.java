@@ -54,4 +54,17 @@ public class ReiminfoBizImpl implements IReiminfoBiz{
 		return baseDao.update(Reiminfo.class, "updateReiminfo", reiminfo);
 	}
 
+	@Override
+	public Map<String, Object> findByCondition(Integer pageNo,
+			Integer pageSize, Map<String, Object> map) {
+		Map<String, Object> params=map;
+		Map<String, Object> results=new HashMap<String, Object>();
+		params.put("pageNo",pageNo );
+		params.put("pageSize", pageSize);
+		results.put("rows", baseDao.findAll(Reiminfo.class, "findByCondition", params));
+		results.put("total", baseDao.find(Reiminfo.class, "getTotalByCondition",map));
+		System.out.println(results);
+		return results;
+	}
+
 }

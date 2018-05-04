@@ -41,5 +41,18 @@ public interface IEmployerBiz {
 	 * @return
 	 */
 	public Employer login(String name,String pwd);
+	/**
+	 * 通过角色查找员工
+	 * @param map
+	 * @return
+	 */
+	public List<String> findByRole(String role);
+	/**
+	 * 查找员工的部门经理
+	 * @param map
+	 * @return
+	 */
+	public List<String> findDeptManager(String did);
 	
+	public Map<String, Object> findByConditon(Map<String, Object> map,Integer pageNo, Integer pageSize);
 }

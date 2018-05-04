@@ -16,16 +16,6 @@ public class Reiminfo {
 	
 	private String ename;//报销人
 	private String iname;//报销类目
-	@Override
-	public String toString() {
-		return "Reiminfo [rid=" + rid + ", eid=" + eid + ", rdate=" + rdate
-				+ ", proof=" + proof + ", price=" + price + ", remark="
-				+ remark + ", imid=" + imid + ", topmanager=" + topmanager
-				+ ", deptmanager=" + deptmanager + ", cashier=" + cashier
-				+ ", financer=" + financer + ", rstatus=" + rstatus
-				+ ", ename=" + ename + ", iname=" + iname + "]";
-	}
-	
 	public Reiminfo(String rid, String eid, String rdate, String proof,
 			double price, String remark, String imid, String topmanager,
 			String deptmanager, String cashier, String financer,
@@ -46,7 +36,6 @@ public class Reiminfo {
 		this.ename = ename;
 		this.iname = iname;
 	}
-
 	public Reiminfo() {
 		super();
 	}
@@ -55,6 +44,12 @@ public class Reiminfo {
 	}
 	public void setRid(String rid) {
 		this.rid = rid;
+	}
+	public String getEid() {
+		return eid;
+	}
+	public void setEid(String eid) {
+		this.eid = eid;
 	}
 	public String getRdate() {
 		return rdate;
@@ -79,6 +74,12 @@ public class Reiminfo {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getImid() {
+		return imid;
+	}
+	public void setImid(String imid) {
+		this.imid = imid;
 	}
 	public String getTopmanager() {
 		return topmanager;
@@ -109,6 +110,18 @@ public class Reiminfo {
 	}
 	public void setRstatus(String rstatus) {
 		this.rstatus = rstatus;
+	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+	public String getIname() {
+		return iname;
+	}
+	public void setIname(String iname) {
+		this.iname = iname;
 	}
 	@Override
 	public int hashCode() {
@@ -214,18 +227,14 @@ public class Reiminfo {
 			return false;
 		return true;
 	}
-	public String getEid() {
-		return eid;
+	@Override
+	public String toString() {
+		return "Reiminfo [rid=" + rid + ", eid=" + eid + ", rdate=" + rdate
+				+ ", proof=" + proof + ", price=" + price + ", remark="
+				+ remark + ", imid=" + imid + ", topmanager=" + topmanager
+				+ ", deptmanager=" + deptmanager + ", cashier=" + cashier
+				+ ", financer=" + financer + ", rstatus=" + rstatus
+				+ ", ename=" + ename + ", iname=" + iname + "]";
 	}
-	public void setEid(String eid) {
-		this.eid = eid;
-	}
-	public String getImid() {
-		return imid;
-	}
-	public void setImid(String imid) {
-		this.imid = imid;
-	}
-	
-	
+
 }

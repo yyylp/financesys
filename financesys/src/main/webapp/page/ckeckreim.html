@@ -1,10 +1,83 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<link rel="stylesheet" type="text/css" href="../easyui/css/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/wu.css" />
+<link rel="stylesheet" type="text/css" href="../easyui/css/icon.css" />
 
-</body>
-</html>
+<style>
+	.bigImg{
+		position:absolute;
+		top:150px;
+		left:400px;
+	}
+}
+	
+</style>
+
+<script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<table id="checkreim_data"></table>
+<script type="text/javascript">
+$('#checkreim_data').datagrid({   
+    url:'../reiminfo/findByPage',   
+    fitColumns:true,
+    pagination:true,
+    pageSize:20,
+    pageList:[5,10,20,30,40,50],
+    striped:true,
+    rownumbers:true,
+    sortName:"rid",
+    remoteSort:false,
+    fit:true,
+    columns:[[
+        {field:"rids",checkbox:true},
+        {field:'rid',title:'报销编号',width:50,align:'center',sortable:true},   
+        {field:'ename',title:'员工姓名',width:50,align:'center',sortable:true},   
+        {field:'price',title:'报销金额',width:50,align:'center',sortable:true},   
+        {field:'remark',title:'报销说明',width:50,align:'center'},
+        {field:'iname',title:'报销类目',width:50,align:'center'},
+        {field:'proof',title:'报销凭证',width:50,align:'center',formatter: function(val,row,index){
+        	return "<img src=../../"+val+" width='50px' height='50px' onclick='showBigImg(\""+val+"\")'/>";
+        }},
+        {field:'rstatus',title:'审核状态',width:50,align:'center',formatter: function(value,row,index){
+			var status=row.rstatus;
+        	if (status==0){
+				return "已申请";
+			} else if(status=1){
+				return "部门经理已审核";
+			}else if(status=2){
+				return "总经理已审核";
+			}else if(status=3){
+				return "已发放";
+			}else if(status=4){
+				return "已入账";
+			}
+		}},
+		{field:'_oprate',title:'审核意见',width:100,align:'center',formatter:function(val,row,index){
+        	var str="";
+	    	str+="<a href=javascript:check("+row.rid+")>[同意]</a>";
+	    	str+="<a href=javascript:check("+row.rid+")>[不同意]</a>";
+        	
+        	return str;
+        }}
+    ]]
+}); 
+
+//显示大图
+function showBigImg(src){
+	var bigImg=$("<img src=../../"+src+" class='bigImg' />");
+	$('body').append(bigImg);
+	bigImg.on('click',function(){
+		$(this).css('display','none');
+	});
+}
+
+//审核
+function check(rid){
+	/* var title = "编辑报销申请";
+	var url = "editgoods.html";
+	var iconCls = "";
+	var iframe = 1;
+	$.post("../../goodsServlet",{op:"editGoods",gid:gid});	
+	addTab(title,url,iconCls,iframe); */
+}
+</script>

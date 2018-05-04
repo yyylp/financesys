@@ -41,4 +41,13 @@ public interface IReiminfoBiz {
 	 * @return
 	 */
 	public int updateReiminfo(Reiminfo reiminfo);
+	
+	/**
+	 * 条件查询
+	 * @param pageNo
+	 * @param pageSize
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> findByCondition(Integer pageNo,Integer pageSize,Map<String, Object> map);
 }

@@ -14,7 +14,7 @@ public interface IBaseDao<T> {
 	public List<T> findAll(Class<?> c,String sqlId,Map<String, Object> map);
 	
 	public List<T> findAll(Class<?> c,String sqlId,Object obj);
-	
+		
 	public T find(Class<?> c,String sqlId);
 	
 	public T find(Class<?> c,String sqlId,Map<String, Object> map);

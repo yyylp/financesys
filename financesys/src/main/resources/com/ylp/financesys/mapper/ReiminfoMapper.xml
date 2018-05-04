@@ -8,17 +8,17 @@
 		<selectKey keyProperty="rid" keyColumn="rid" order="BEFORE" resultType="String">
 			select seq_Reiminfo_rid.nextval from dual 
 		</selectKey>
-		insert into Reiminfo values(#{rid},sysdate,#{eid},#{proof},#{price},#{remark},'','','','',0)
+		insert into Reiminfo values(#{rid},sysdate,#{eid},#{proof},#{price},#{remark},#{imid},#{deptmanager},#{topmanager},#{cashier},#{financer},0)
 	</insert>
 	
 	<select id="findByPage" resultType="Reiminfo" parameterType="Map">
-		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,ename,cashier,deptmanager,topmanager,financer,rstatus from (select rownum rn ,a.* from (select r.*,r.eid,ename from reiminfo r join employer e on r.eid=e.eid) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,imid,iname,ename,proof,remark,eid,cashier,deptmanager,topmanager,financer,rstatus from (select rownum rn ,a.* from (select r.*,ename,iname from reiminfo r , employer e,fitems f where r.eid=e.eid and r.imid=f.imid) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
 	</select>
 	<select id="findByEmp" resultType="Reiminfo" parameterType="Map">
-		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,ename,cashier,deptmanager,topmanager,financer,rstatus from (select rownum rn ,a.* from (select r.*,r.eid,ename from reiminfo r join employer e on r.eid=e.eid where r.eid=#{eid}) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,imid,iname,ename,proof,remark,eid,cashier,deptmanager,topmanager,financer,rstatus from (select r.*,ename,iname from reiminfo r , employer e,fitems f where r.eid=e.eid and r.imid=f.imid and r.eid=#{eid}) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
 	</select>
 	<select id="findAll" resultType="Reiminfo">
-		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,ename,cashier,deptmanager,topmanager,financer,rstatus from Reiminfo r join employer e on e.eid=r.eid
+		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,r.imid imid ,iname,ename,proof,remark,e.eid eid,cashier,deptmanager,topmanager,financer,rstatus from reiminfo r , employer e,fitems f where r.eid=e.eid and r.imid=f.imid
 	</select>
 
 	<select id="getTotal" resultType="int">
@@ -40,4 +40,44 @@
 	<update id="update" parameterType="Reiminfo">
 		update Reiminfo set rtatus=#{rstatus} where rid=#{rid}
 	</update>
+	
+	<select id="findByCondition" resultType="Reiminfo" parameterType="Map">
+		select rid,to_char(rdate,'yyyy-mm-dd') rdate,price,imid,iname,ename,proof,remark,eid,cashier,deptmanager,topmanager,financer,rstatus from (select rownum rn ,a.* from (select r.*,ename,iname from reiminfo r , employer e,fitems f where r.eid=e.eid and r.imid=f.imid) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+		<if test="date!=null">
+			and to_char(rdate,'yyyy-mm-dd')='${date}'
+		</if>
+		<if test="imid!=null">
+			and imid=#{imid}
+		</if>
+		<if test="status!=null">
+			and rstatus=#{status}
+		</if>
+		<if test="startprice!=null">
+			and price >= #{startprice}
+		</if>
+		<if test="endprice!=null">
+			and  #{endprice} >= price
+		</if>
+	</select>
+
+	<select id="getTotalByCondition" resultType="int">
+		select count(rid) from Reiminfo
+		<where>
+			<if test="date!=null">
+			and to_char(rdate,'yyyy-mm-dd')='${date}'
+			</if>
+			<if test="imid!=null">
+				and imid=#{imid}
+			</if>
+			<if test="status!=null">
+				and rstatus=#{status}
+			</if>
+			<if test="startprice!=null">
+				and price >= #{startprice}
+			</if>
+			<if test="endprice!=null">
+				and #{endprice} >= price
+			</if>
+		</where>
+	</select>
 </mapper>

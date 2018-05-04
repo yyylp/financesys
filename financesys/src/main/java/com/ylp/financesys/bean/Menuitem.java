@@ -6,11 +6,13 @@ public class Menuitem {
 	private String mtid;
 	private String attr;//打开选项卡名称
 	private String mtname;//所属类型
+	private int flag;//是否拥有此菜单项的权限
 	
 	@Override
 	public String toString() {
 		return "Menuitem [mid=" + mid + ", mname=" + mname + ", mtid=" + mtid
-				+ ", attr=" + attr + ", mtname=" + mtname + "]";
+				+ ", attr=" + attr + ", mtname=" + mtname + ", flag=" + flag
+				+ "]";
 	}
 	
 	public Menuitem(String mid, String mname, String mtid, String attr,
@@ -105,6 +107,14 @@ public class Menuitem {
 
 	public void setAttr(String attr) {
 		this.attr = attr;
+	}
+
+	public int getFlag() {
+		return flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
 	}
 	
 }

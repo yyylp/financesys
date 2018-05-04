@@ -13,7 +13,7 @@
 	<div class="loginwarrp">
 		<div class="logo">用户登陆</div>
         <div class="login_form">
-			<form id="Login" name="Login" method="post" onsubmit="login()">
+			<form id="Login" name="Login" method="post">
 			<ul>
 				<li class="login-item">
 					<span>用户名：</span>
@@ -26,7 +26,7 @@
                     <span id="password-msg" class="error"></span>
 				</li>
 				<li class="login-sub">
-					<input type="submit" name="button" value="登录"/>
+					<input type="button" name="button" value="登录" onclick="login()"/>
                     <input type="reset" name="Reset" value="重置" />
 				</li> 
 			</ul>                     
@@ -41,7 +41,7 @@
 		var pwd=$("#password").val();
 		$.post("../emp/login",{name:name,pwd:pwd},function(data){
 			if(data>0){
-				location.href="index.jsp";
+				window.location.href="index.jsp";
 			}else{
 				alert("用户名或密码错误，请重新输入");
 			}

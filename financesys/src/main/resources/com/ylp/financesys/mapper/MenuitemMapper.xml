@@ -7,8 +7,17 @@
 	<select id="findAll" resultType="Menuitem">
 		select mid,mname,m.mtid,mtname,attr from menuitem m join menutype mt on m.mtid=mt.mtid
 	</select>
-	<select id="findByEid" resultType="Menuitem" parameterType="String">
+	
+	<select id="findBySid" resultType="Menuitem" parameterType="String">
 		select * from (select mid,mname,m.mtid,mtname,attr from menuitem m join menutype mt on m.mtid=mt.mtid)
 		 a ,  sysright sr where a.mid=sr.mid and sr.sid=#{sid}
+	</select>
+	
+	<select id="findByPage" resultType="Menuitem" parameterType="Map">
+		select * from (select rownum rn ,a.* from (select m.*,mtname from menuitem m,menutype mt where m.mtid=mt.mtid) a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(mid) from menuitem
 	</select>
 </mapper>

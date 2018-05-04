@@ -1,6 +1,7 @@
 package com.ylp.financesys.biz;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ylp.financesys.bean.Menuitem;
 
@@ -16,6 +17,13 @@ public interface IMenuitemBiz {
 	 * @param eid
 	 * @return
 	 */
-	public List<Menuitem> findByEmp(String eid);
+	public List<Menuitem> findBySid(String sid);
 
+	/**
+	 * 分页查询
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public Map<String, Object> findByPage(Integer pageNo,Integer pageSize);
 }

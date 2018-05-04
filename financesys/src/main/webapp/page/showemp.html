@@ -4,6 +4,22 @@
 <script type="text/javascript" src="../easyui/js/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="../easyui/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="../easyui/js/easyui-lang-zh_CN.js"></script>
+<div id="search_goods">
+	
+	<label>姓名：</label>
+	<input type="text" name="ename" id="emp_search_ename"/>&nbsp;
+	<label>部门:</label>
+	<select id="dept_list">
+		<option value="">--全部--</option>
+	</select>
+	<label>角色:</label>
+	<select id="role_list">
+		<option value="">--全部--</option>
+	</select>
+	<label>电话号码：</label>
+	<input type="text" name="tel" id="emp_search_tel"/>&nbsp;
+	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="searchEmp()">查询</a>  
+</div>
 <table id="emp_data"></table>
 <script type="text/javascript">
 $('#emp_data').datagrid({   
@@ -27,4 +43,28 @@ $('#emp_data').datagrid({
     ]] 
 }); 
 
+function searchEmp(){
+	var ename=$('#emp_search_ename').val();
+	var dept=$('#dept_list').val();
+	var tel=$('#emp_search_tel').val();
+	var role=$('#role_list').val();
+	$('#emp_data').datagrid({
+		url:"../emp/findByCondition",
+		queryParams:{ename:ename,dept:dept,tel:tel,role:role}
+	});
+}
+//加载部门列表
+$.get('../dept/findAll',{},function(data){
+	console.log(data);
+	$.each(data,function(index,item){
+		$('#dept_list').append("<option value='"+item.dname+"'>"+item.dname+"</option>");
+	});
+},'json');
+
+//加载角色列表
+$.get('../role/findAll',{},function(data){
+	$.each(data,function(index,item){
+		$('#role_list').append("<option value='"+item.sname+"'>"+item.sname+"</option>");
+	});
+},'json');
 </script>

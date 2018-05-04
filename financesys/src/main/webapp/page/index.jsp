@@ -127,7 +127,7 @@
 			$('#tt').tree({   
 			    data:data,
 			    onClick: function(node){
-			    	if(node.attributes.url!=""){		    		
+			    	if(node.attributes.url!=null){		    		
 						addTab(node.text,node.attributes.url,"",true);
 			    	}
 				}
