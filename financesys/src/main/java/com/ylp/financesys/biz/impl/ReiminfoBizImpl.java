@@ -72,4 +72,9 @@ public class ReiminfoBizImpl implements IReiminfoBiz{
 		return (Reiminfo) baseDao.find(Reiminfo.class, "findByRid", rid);
 	}
 
+	@Override
+	public int checkReim(Map<String, Object> map) {
+		return baseDao.update(Reiminfo.class, "checkReim", map);
+	}
+
 }

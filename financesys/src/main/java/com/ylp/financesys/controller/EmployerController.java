@@ -64,7 +64,7 @@ public class EmployerController {
 		if (!StringUtil.isNull(role)) {			
 			map.put("sname", role);
 		}
-		
+		System.out.println("yes");
 		System.out.println(map);
 		return employerBiz.findByConditon(map, pageNo, pageSize);
 	}

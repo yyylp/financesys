@@ -9,24 +9,24 @@
 			select seq_sysright_erid.nextval from dual 
 		</selectKey>
 		<selectKey></selectKey> -->
-		insert into sysright(srid,sid,mid) select seq_sysright_srid.nextval srid,${sid},mid from(
+		insert into sysright(srid,sid,mid) select seq_sysright_srid.nextval srid,#{sid},mid from(
 		<foreach collection="mids" item="item" index="index" separator="union all">
-			select ${item,jdbcType=VARCHAR} mid from dual
+			select #{item,jdbcType=VARCHAR} mid from dual
 		</foreach>)
 	</insert>
 	
 	<select id="findBySid" parameterType="Sysright" resultType="String">
-		select mid from sysright where sid=${sid}
+		select mid from sysright where sid=#{sid}
 	</select>
 	
 	<select id="findBySidMid" parameterType="Sysright" resultType="Sysright">
-		select srid,sid,mid from sysright where sid=${sid} and mid=${mid}
+		select srid,sid,mid from sysright where sid=#{sid} and mid=#{mid}
 	</select>
 	
 	<delete id="deleteBySid" parameterType="map">
-		delete from sysright where sid=${sid} and mid not in
+		delete from sysright where sid=#{sid} and mid not in
 		<foreach collection="dels" item="item" index="index" open="(" close=")" separator=",">
-			${item}
+			#{item}
 		</foreach>
 	</delete>
 </mapper>

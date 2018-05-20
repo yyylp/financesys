@@ -58,4 +58,8 @@ public interface IReiminfoBiz {
 	 * @return
 	 */
 	public Reiminfo findByRid(String rid);
+	/**
+	 * 审核报销
+	 */
+	public int checkReim(Map<String, Object> map);
 }

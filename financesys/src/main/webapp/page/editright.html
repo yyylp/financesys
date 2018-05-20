@@ -7,29 +7,29 @@
 </style>
 	<div class="easyui-layout" style="width:100%;height:100%;">
 		<div data-options="region:'east',split:true,title:'权限列表',collapsible:false" style="width:1000px">
-			<ul id="right_list" class="easyui-tree" data-options="animate:true,checkbox:true"></ul>
+			<ul id="right_list_data" class="easyui-tree" data-options="animate:true,checkbox:true"></ul>
 			<input type="button" onClick="addRight()" value="设置权限"/>
 		</div>
 		<div data-options="region:'center',title:'角色列表'" style="padding:10px;">
-			<ul id="role_list" class="easyui-tree" data-options="animate:true"></ul>
+			<ul id="role_list_data" class="easyui-tree" data-options="animate:true"></ul>
 		</div>
 	</div>
 	
 <script type="text/javascript">
-	$("#role_list").tree({
+	$("#role_list_data").tree({
 		url:"../role/findByTree"
 	});
 	
-	$.post("../menu/findBySid",{},function(data){
+	$.post("../menu/findAll",{},function(data){
 		console.log(data);
-		$("#right_list").tree({
+		$("#right_list_data").tree({
 			data:data
 		});
 	},'json');
 	function addRight(){
-		var role = $('#role_list').tree('getSelected');
+		var role = $('#role_list_data').tree('getSelected');
 		console.log(role.id);
-		var items= $("#right_list").tree("getChecked");
+		var items= $("#right_list_data").tree("getChecked");
 		var str="";
 		$.each(items,function(index,item){
 			//只添加子节点 

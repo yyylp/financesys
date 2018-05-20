@@ -50,7 +50,10 @@ $('#reiminfo_data').datagrid({
         {field:'remark',title:'报销说明',width:50,align:'center'},
         {field:'iname',title:'报销类目',width:50,align:'center'},
         {field:'proof',title:'报销凭证',width:50,align:'center',formatter: function(val,row,index){
-        	return "<img src=../../"+val+" width='50px' height='50px' onclick='showBigImg(\""+val+"\")'/>";
+        	if(val!=null){
+        		return "<img src=../../"+val+" width='50px' height='50px' onclick='showBigImg(\""+val+"\")'/>";
+        	}
+        	return "无";
         }},
         {field:'rstatus',title:'审核状态',width:50,align:'center',formatter: function(value,row,index){
 			var status=row.rstatus;

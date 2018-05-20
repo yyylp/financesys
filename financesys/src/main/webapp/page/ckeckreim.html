@@ -30,26 +30,31 @@ $('#reim_data_check').datagrid({
         {field:'remark',title:'报销说明',width:50,align:'center'},
         {field:'iname',title:'报销类目',width:50,align:'center'},
         {field:'proof',title:'报销凭证',width:50,align:'center',formatter: function(val,row,index){
-        	return "<img src=../../"+val+" width='50px' height='50px' onclick='showBigImg(\""+val+"\")'/>";
+        	if(val!=null){
+        		return "<img src=../../"+val+" width='50px' height='50px' onclick='showBigImg(\""+val+"\")'/>";
+        	}
+        	return "无";
         }},
         {field:'rstatus',title:'审核状态',width:50,align:'center',formatter: function(value,row,index){
 			var status=row.rstatus;
         	if (status==0){
 				return "已申请";
-			} else if(status=1){
+			} else if(status==1){
 				return "部门经理已审核";
-			}else if(status=2){
+			}else if(status==2){
 				return "总经理已审核";
-			}else if(status=3){
+			}else if(status==3){
 				return "已发放";
-			}else if(status=4){
+			}else if(status==4){
 				return "已入账";
+			}else if(status==-1){
+				return "审核不通过";
 			}
 		}},
 		{field:'_oprate',title:'审核意见',width:100,align:'center',formatter:function(val,row,index){
         	var str="";
-	    	str+="<a href=javascript:check("+row.rid+")>[同意]</a>";
-	    	str+="<a href=javascript:check("+row.rid+")>[不同意]</a>";
+	    	str+="<a href=javascript:check("+row.rid+","+row.rstatus+")>[同意]</a>";
+	    	str+="<a href=javascript:uncheck("+row.rid+")>[不同意]</a>";
         	
         	return str;
         }}
@@ -65,13 +70,24 @@ function showBigImg(src){
 	});
 }
 
-//审核
-function check(rid){
-	/* var title = "编辑报销申请";
-	var url = "editgoods.html";
-	var iconCls = "";
-	var iframe = 1;
-	$.post("../../goodsServlet",{op:"editGoods",gid:gid});	
-	addTab(title,url,iconCls,iframe); */
+//审核通过
+function check(rid,status){
+	$.post("../reiminfo/checkReim",{rid:rid,status:status},function(data){
+		if (data == 1) {
+			$.messager.show({title:'成功提示',msg:'审核成功',timeout:2000,showType:'slide'});
+		}else{
+			$.messager.alert("失败提示","审核失败，请重新审核或与管理员联系",'error');
+		}
+	},'text');	
+}
+//审核不通过
+function uncheck(rid,status){
+	$.post("../reiminfo/uncheckReim",{rid:rid},function(data){
+		if (data == 1) {
+			$.messager.show({title:'成功提示',msg:'审核成功',timeout:2000,showType:'slide'});
+		}else{
+			$.messager.alert("失败提示","审核失败，请重新审核或与管理员联系",'error');
+		}
+	},'text');	
 }
 </script>

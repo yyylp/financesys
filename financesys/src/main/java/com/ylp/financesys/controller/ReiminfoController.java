@@ -37,13 +37,14 @@ public class ReiminfoController {
 		Employer emp=(Employer) session.getAttribute("currentLogin");
 		if (emp!=null) {
 			String eid=emp.getEid();
-			String sid=emp.getsid();
 			String did=emp.getDid();
 			reiminfo.setEid(eid);
 			FileUpload fileUpload=new FileUpload();
 			Map<String, String> map=fileUpload.upload(request, file, "/photos/");
-			reiminfo.setProof(map.get("upload"));
-			reiminfo.setRstatus("0");//报销状态 0已申请
+			reiminfo.setProof("");
+			if (map.get("upload")!=null) {
+				reiminfo.setProof(map.get("upload"));
+			}			reiminfo.setRstatus("0");//报销状态 0已申请
 			//获取该员工的部门经理
 			List<String> deptManager=employerBiz.findDeptManager(did);
 			if (deptManager!=null&&deptManager.size()>0) {
@@ -154,5 +155,42 @@ public class ReiminfoController {
 			return gson.toJson(reiminfoBiz.findByRid(rid));
 		}
 		return null;
+	}
+	
+	@RequestMapping("/saveReim")
+	@ResponseBody
+	public int saveReim(Reiminfo reiminfo,@RequestParam("edit_selectPic") MultipartFile file,HttpServletRequest request,HttpSession session){
+		FileUpload fileUpload=new FileUpload();
+		Map<String, String> map=fileUpload.upload(request, file, "/photos/");
+		reiminfo.setProof("");
+		if (map.get("upload")!=null) {
+			reiminfo.setProof(map.get("upload"));
+		}
+		System.out.println(reiminfo);
+		return reiminfoBiz.updateReiminfo(reiminfo);
+	}
+	@RequestMapping("/checkReim")
+	@ResponseBody
+	public int checkReim(@RequestParam("rid") String rid,@RequestParam("status") String status){
+		if (!StringUtil.isNull(rid,status)) {
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("rid", rid);
+			params.put("rstatus", Integer.parseInt(status)+1);
+			System.out.println(params);
+			return reiminfoBiz.checkReim(params);
+		}
+		return 0;
+	}
+	@RequestMapping("/uncheckReim")
+	@ResponseBody
+	public int uncheckReim(@RequestParam("rid") String rid){
+		if (!StringUtil.isNull(rid)) {
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("rid", rid);
+			params.put("rstatus", "-1");
+			System.out.println(params);
+			return reiminfoBiz.checkReim(params);
+		}
+		return 0;
 	}
 }

@@ -8,11 +8,11 @@
 		<selectKey keyProperty="did" keyColumn="did" order="BEFORE" resultType="String">
 			select seq_department_did.nextval from dual 
 		</selectKey>
-		insert into department values(${did},${dname})
+		insert into department values(#{did},#{dname})
 	</insert>
 	
 	<select id="findByPage" resultType="Department" parameterType="Map">
-		select dname,did from (select rownum rn ,a.* from department a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+		select dname,did from (select rownum rn ,a.* from department a where #{pageNo}*#{pageSize} >= rownum ) where rn> (#{pageNo}-1) * #{pageSize}
 	</select>
 	
 	<select id="findAll" resultType="Department">
@@ -26,11 +26,11 @@
 		delete from department where did in
 		<!-- collection 表示集合类型 -->
 		<foreach collection="list" item="did" open="(" close=")" separator=",">
-			${did}
+			#{did}
 		</foreach>
 	</delete> 
 	
 	<update id="update" parameterType="Department">
-		update department set dname=${dname} where did=${did}
+		update department set dname=#{dname} where did=#{did}
 	</update>
 </mapper>

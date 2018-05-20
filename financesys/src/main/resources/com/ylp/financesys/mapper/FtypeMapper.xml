@@ -8,11 +8,11 @@
 		<selectKey keyProperty="fid" keyColumn="fid" order="BEFORE" resultType="String">
 			select seq_Ftype_fid.nextval from dual 
 		</selectKey>
-		insert into Ftype values(${fid},${fname})
+		insert into Ftype values(#{fid},#{fname})
 	</insert>
 	
 	<select id="findByPage" resultType="Ftype" parameterType="Map">
-		select fname,fid from (select rownum rn ,a.* from Ftype a where ${pageNo}*${pageSize} >= rownum ) where rn> (${pageNo}-1) * ${pageSize}
+		select fname,fid from (select rownum rn ,a.* from Ftype a where #{pageNo}*#{pageSize} >= rownum ) where rn> (#{pageNo}-1) * #{pageSize}
 	</select>
 	<select id="findAll" resultType="Ftype">
 		select fname,fid from Ftype
@@ -25,11 +25,11 @@
 		delete from Ftype where fid in
 		<!-- collection 表示集合类型 -->
 		<foreach collection="list" item="fid" open="(" close=")" separator=",">
-			${fid}
+			#{fid}
 		</foreach>
 	</delete> 
 	
 	<update id="update" parameterType="Ftype">
-		update Ftype set fname=${fname} where fid=${fid}
+		update Ftype set fname=#{fname} where fid=#{fid}
 	</update>
 </mapper>

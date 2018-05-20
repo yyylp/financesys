@@ -42,7 +42,8 @@ function searchEmp(){
 	var dept=$('#dept_list').val();
 	var tel=$('#emp_search_tel').val();
 	var role=$('#role_list_emp').val();
-	$('#emp_data').datagrid({
+	console.log("1");
+	$('#emp_data_show').datagrid({
 		url:"../emp/findByCondition",
 		queryParams:{ename:ename,dept:dept,tel:tel,role:role}
 	});
