@@ -20,6 +20,18 @@ var empObj=$('#emp_data_edit').datagrid({
         {field:'eid',title:'员工编号',width:50,align:'center',sortable:true},   
         {field:'ename',title:'姓名',width:50,align:'center',editor:{type:'text',options:{required:true}}},
         {field:'tel',title:'联系电话',width:50,align:'center',editor:{type:'text',options:{required:true}}},
+        {field:'sex',title:'性别',width:50,align:'center',editor:{type:'combobox',options:{required:true,valueField: 'label',
+    		textField: 'value',
+    		data: [{
+    			label: '男',
+    			value: '男'
+    		},{
+    			label: '女',
+    			value: '女'
+    		}]}}},
+        {field:'birth',title:'出生年月',width:50,align:'center',editor:{type:'datebox',options:{}}},
+        {field:'position',title:'职位',width:50,align:'center',editor:{type:'text',options:{}}},
+        {field:'email',title:'电子邮箱',width:50,align:'center',editor:{type:'text',options:{required:true}}},
         {field:'dname',title:'所属部门',width:50,align:'center',editor:{type:'combobox',options:{valueField: 'did', textField: 'dname',method:'post',required:true,url:"../dept/findAll"}}},
         {field:'sname',title:'角色',width:50,align:'center',editor:{type:'combobox',options:{valueField: 'sid', textField: 'sname',method:'post',required:true,url:"../role/findAll"}}}
     ]],
@@ -91,7 +103,7 @@ var empObj=$('#emp_data_edit').datagrid({
     		var row=empObj.datagrid("getChanges")[0];
     		if(row!=undefined){
     			row.op=empOp;
-        		$.post('../emp/'+empOp,{eid:row.eid,ename:row.ename,tel:row.tel,did:row.dname,sid:row.sname},function(data){
+        		$.post('../emp/'+empOp,{eid:row.eid,ename:row.ename,tel:row.tel,did:row.dname,sid:row.sname,sex:row.sex,position:row.position,email:row.email,birth:row.birth},function(data){
         			if(data>0){
         				$.messager.show({title:'成功提示',msg:empFlag+'保存员工成功...',timeout:2000,showType:'slide'});
         				empObj.datagrid("reload");//重载所有记录

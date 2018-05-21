@@ -62,7 +62,6 @@ public class SysroleController {
 			Map<String, Object> roles=new HashMap<String, Object>();
 			roles.put("id", sysrole.getSid());
 			roles.put("text",sysrole.getSname());
-			roles.put("iconCls","icon-add");
 			nodes.add(roles);
 		}
 		Gson gson=new Gson();

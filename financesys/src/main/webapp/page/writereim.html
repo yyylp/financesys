@@ -4,14 +4,20 @@
 	width: 100%;
 	height: 150px;
 }
-</style>
 
-<p>报销金额：<input type="text" name="price" id="reim_price"></p>
-<p>财务条目：<select id="items"></select></p>
-说明：<textarea cols="180" rows="10" id="remark"></textarea>
-<p>报销凭证：<input type="file" multiple="multiple" name="selectPic" id="selectPic" onchange="setImagePreviews(this,'selectImg')"></p>
-<div id="selectImg"></div>
-<p style="text-align: center;"><input type="button" value="提交申请" onclick="addReim()"></p>
+.reimcontent{
+	margin-left:20px;
+	font-size: 16px;
+}
+</style>
+<div class="reimcontent">
+	<p>报销金额：<input type="text" name="price" id="reim_price"></p>
+	<p>财务条目：<select id="items"></select></p>
+	说明：<textarea cols="180" rows="10" id="remark"></textarea>
+	<p>报销凭证：<input type="file" multiple="multiple" name="selectPic" id="selectPic" onchange="setImagePreviews(this,'selectImg')"></p>
+	<div id="selectImg"></div>
+	<p style="text-align: center;"><input type="button" value="提交申请" onclick="addReim()"></p>
+</div>
 
 <script type="text/javascript" >
 	//显示报销类目

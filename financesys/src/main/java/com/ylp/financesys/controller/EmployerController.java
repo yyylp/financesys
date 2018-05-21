@@ -75,6 +75,7 @@ public class EmployerController {
 		Employer employer=employerBiz.login(name, pwd);
 		if (employer!=null) {			
 			session.setAttribute("currentLogin",employer);
+			session.setAttribute("currentRole", "emp");
 			System.out.println(employer);
 			return 1;
 		}

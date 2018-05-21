@@ -16,9 +16,9 @@ $('#sysright_data_show').datagrid({
         {field:'mname',title:'权限名称',width:50,align:'center'},
         {field:'flag',title:'是否拥有权限',width:50,align:'center',formatter: function(value,row,index){
 			if (row.flag==1){
-				return "yes";
+				return "√";
 			} else {
-				return "no";
+				return "×";
 			}
 		}
 }

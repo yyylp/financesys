@@ -11,14 +11,13 @@ public class Reiminfo {
 	private String topmanager;//总经理
 	private String deptmanager ;//部门经理
 	private String cashier;//出纳
-	private String financer;//财务
 	private String rstatus;//报销状态 已申请0、部门经理已审核1、总经理已审核2、已发放3、已入账4
 	
 	private String ename;//报销人
 	private String iname;//报销类目
 	public Reiminfo(String rid, String eid, String rdate, String proof,
 			double price, String remark, String imid, String topmanager,
-			String deptmanager, String cashier, String financer,
+			String deptmanager, String cashier, 
 			String rstatus, String ename, String iname) {
 		super();
 		this.rid = rid;
@@ -31,7 +30,6 @@ public class Reiminfo {
 		this.topmanager = topmanager;
 		this.deptmanager = deptmanager;
 		this.cashier = cashier;
-		this.financer = financer;
 		this.rstatus = rstatus;
 		this.ename = ename;
 		this.iname = iname;
@@ -99,12 +97,6 @@ public class Reiminfo {
 	public void setCashier(String cashier) {
 		this.cashier = cashier;
 	}
-	public String getFinancer() {
-		return financer;
-	}
-	public void setFinancer(String financer) {
-		this.financer = financer;
-	}
 	public String getRstatus() {
 		return rstatus;
 	}
@@ -132,8 +124,6 @@ public class Reiminfo {
 				+ ((deptmanager == null) ? 0 : deptmanager.hashCode());
 		result = prime * result + ((eid == null) ? 0 : eid.hashCode());
 		result = prime * result + ((ename == null) ? 0 : ename.hashCode());
-		result = prime * result
-				+ ((financer == null) ? 0 : financer.hashCode());
 		result = prime * result + ((imid == null) ? 0 : imid.hashCode());
 		result = prime * result + ((iname == null) ? 0 : iname.hashCode());
 		long temp;
@@ -177,11 +167,7 @@ public class Reiminfo {
 				return false;
 		} else if (!ename.equals(other.ename))
 			return false;
-		if (financer == null) {
-			if (other.financer != null)
-				return false;
-		} else if (!financer.equals(other.financer))
-			return false;
+	
 		if (imid == null) {
 			if (other.imid != null)
 				return false;
@@ -233,7 +219,7 @@ public class Reiminfo {
 				+ ", proof=" + proof + ", price=" + price + ", remark="
 				+ remark + ", imid=" + imid + ", topmanager=" + topmanager
 				+ ", deptmanager=" + deptmanager + ", cashier=" + cashier
-				+ ", financer=" + financer + ", rstatus=" + rstatus
+				+ ", rstatus=" + rstatus
 				+ ", ename=" + ename + ", iname=" + iname + "]";
 	}
 

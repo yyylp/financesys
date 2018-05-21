@@ -45,9 +45,7 @@ public class MenuitemController {
 			attributes: 可以添加到节点的自定义属性 
 			children: 一个节点数组,定义一些子节点
 		 */
-		int id=0;
 		String state="closed";
-		String checked="false";
 		List<Map<String, Object>> nodes=new ArrayList<Map<String,Object>>();
 		List<Menutype> menutypes=menutypeBiz.findAll();
 		List<Menuitem> menuitems=menuitemBiz.findAll();
@@ -102,8 +100,7 @@ public class MenuitemController {
 		//获取当前登录用户
 		Employer emp=(Employer) session.getAttribute("currentLogin");
 		if (emp!=null) {
-			String eid=emp.getEid();
-			String sid=emp.getsid();
+			String sid=emp.getSid();
 			List<Menutype> menutypes=menutypeBiz.findAll();
 			List<Menuitem> menuitems=menuitemBiz.findBySid(sid);
 			
@@ -112,7 +109,7 @@ public class MenuitemController {
 					Map<String, Object> node=new HashMap<String, Object>();
 					node.put("id", menutype.getMtid());
 					node.put("text", menutype.getMtname());
-					node.put("state", "open");
+					node.put("state", "closed");
 					node.put("ckecked", true);
 					List<Map<String, Object>> chidren=new ArrayList<Map<String,Object>>();
 					if (menuitems!=null&&menuitems.size()>0) {
@@ -154,7 +151,7 @@ public class MenuitemController {
 		//获取当前登录用户
 		Employer emp=(Employer) session.getAttribute("currentLogin");
 		if (emp!=null) {
-			String sid=emp.getsid();
+			String sid=emp.getSid();
 			List<String> rightList=sysrightBiz.findBySid(sid);
 			for (String right : rightList) {
 				for (Menuitem menuitem : menuitems) {
@@ -168,5 +165,22 @@ public class MenuitemController {
 		results.put("rows", menuitems);
 		System.out.println(results);
 		return results;
+	}
+	
+	@RequestMapping("/showMenu")
+	@ResponseBody
+	public String showMenu(HttpSession session){
+		//当前是管理员登录
+		if(session.getAttribute("currentRole")!=null){
+			if (session.getAttribute("currentRole").equals("admin")) {
+				System.out.println("y");
+				return findAll();
+			}else {
+				return findBySid(session);
+			}
+		}else {
+			return null;
+		}
+		
 	}
 }

@@ -20,7 +20,7 @@
 		url:"../role/findByTree"
 	});
 	
-	$.post("../menu/findAll",{},function(data){
+	$.post("../menu/showMenu",{},function(data){
 		console.log(data);
 		$("#right_list_data").tree({
 			data:data

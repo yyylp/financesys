@@ -62,15 +62,8 @@ public class ReiminfoController {
 					str+=cash+",";
 				}
 				reiminfo.setCashier(str.substring(0, str.lastIndexOf(",")));
-			}			//获取财务
-			List<String> financer=employerBiz.findByRole("财务");
-			if (financer!=null&&financer.size()>0) {
-				String str="";
-				for (String fin : financer) {
-					str+=fin+",";
-				}
-				reiminfo.setFinancer(str.substring(0, str.lastIndexOf(",")));
-			}			
+			}
+						
 			//获取总经理
 			List<String> topmanager=employerBiz.findByRole("总经理");
 			if (topmanager!=null&&topmanager.size()>0) {

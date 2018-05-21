@@ -27,7 +27,7 @@
 		$.post("../reiminfo/findByRid",{},function(data){
 			rid=data.rid;
 			$('#edit_price').val(data.price);
-			$('#edit_mark').val(data.remark);
+			$('#edit_remark').val(data.remark);
 			if(data.proof!=null){
 				$('#edit_showpic').html('<img src=../../'+data.proof+' width="80px" height="80px"/>');
 			}

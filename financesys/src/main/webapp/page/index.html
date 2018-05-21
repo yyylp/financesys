@@ -24,7 +24,7 @@
 	<!-- begin of header -->
 	<div class="wu-header" data-options="region:'north',border:false,split:true">
     	<div class="wu-header-left">
-        	<h1>企业财务报销办公管理系统</h1>
+        	<h1>企业报销管理办公系统</h1>
         </div>
         <div class="wu-header-right">
         	<p><strong class="easyui-tooltip" title="2条未读消息" id="loginAdmin"></strong>李四，欢迎您！</p>
@@ -123,7 +123,7 @@
 				tabPanel.tabs('close', index);
 			}
 		} 
-		$.post("../menu/findAll",{},function(data){
+		$.post("../menu/showMenu",{},function(data){
 			console.log(data);
 			$('#tt').tree({   
 			    data:data,
